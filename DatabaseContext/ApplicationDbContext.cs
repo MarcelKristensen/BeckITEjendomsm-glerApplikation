@@ -1,18 +1,18 @@
 ﻿using BeckITEjendomsmæglerApplikation.Models;
+using BeckITEjendomsmæglerApplikation.Models.AddressHyperlinks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BeckITEjendomsmæglerApplikation.DatabaseContext
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 
         }
-
-        public DbSet<User> User { get; set; }
-
+        public DbSet<Address> Addresses { get; set; }
+        
         //Bruges til IdentityUser og Entityframework migrations
         protected override void OnModelCreating(ModelBuilder builder)
         {
