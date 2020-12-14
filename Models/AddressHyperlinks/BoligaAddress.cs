@@ -13,6 +13,6 @@ namespace BeckITEjendomsmæglerApplikation.Models.AddressHyperlinks
         public int BoligaID { get; set; }
         [DisplayName("Boliga")]
         public string BoligaHyperlink { get; set; }
-        public IList<Address> Address { get; set; }
+        public string BoligaStreet { get; set; }
     }
 }

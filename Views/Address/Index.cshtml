@@ -7,7 +7,7 @@
 <h2>Addresses</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-controller="Address" asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -20,12 +20,14 @@
                 @Html.DisplayNameFor(model => model.Zipcode)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Boliga.BoligaHyperlink)
+                @Html.DisplayNameFor(model => model.CurrentDate)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Boligsiden.BoligsidenHyperlink)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Boliga.BoligaHyperlink)
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -38,12 +40,15 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Zipcode)
             </td>
-            <th>
-                <a href="@Html.DisplayFor(modelItem => item.Boliga.BoligaHyperlink)" target="_blank">@Html.DisplayFor(modelItem => item.Street)</a>
-            </th>
-            <th>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentDate)
+            </td>
+            <td>
                 <a href="@Html.DisplayFor(modelItem => item.Boligsiden.BoligsidenHyperlink)" target="_blank">@Html.DisplayFor(modelItem => item.Street)</a>
-            </th>
+            </td>
+            <td>
+                <a href="@Html.DisplayFor(modelItem => item.Boliga.BoligaHyperlink)" target="_blank">@Html.DisplayFor(modelItem => item.Street)</a>
+            </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.AddressId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.AddressId">Details</a> |
