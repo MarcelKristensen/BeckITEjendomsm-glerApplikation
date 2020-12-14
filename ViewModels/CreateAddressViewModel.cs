@@ -16,7 +16,7 @@ namespace BeckITEjendomsmæglerApplikation.ViewModels
         [MaxLength(4, ErrorMessage = "Postnummer kan ikke være mere end 4 karakterer")]
         [DisplayName("Postnummer")]
         public string Zipcode { get; set; }
-        public DateTime? InsertDate { get; set; }
-        public DateTime? CurrentDate { get; set; }
+        [DisplayName("Liggetid")]
+        public int StartLiggetid { get; set; }
     }
 }

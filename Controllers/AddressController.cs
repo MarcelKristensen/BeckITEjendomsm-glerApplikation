@@ -18,6 +18,7 @@ namespace BeckITEjendomsmæglerApplikation.Controllers
             this.context = dbContext;
         }
 
+        //GET
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -33,7 +34,17 @@ namespace BeckITEjendomsmæglerApplikation.Controllers
         {
             return View();
         }
+       
+        //DELETE
+        public async Task<IActionResult> Delete(int? id)
+        {
+            var address = await context.Addresses.FindAsync(id);
+            context.Addresses.Remove(address);
+            await context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
 
+        //POST
         [HttpPost]
         public IActionResult Create(CreateAddressViewModel model)
         {
@@ -45,7 +56,7 @@ namespace BeckITEjendomsmæglerApplikation.Controllers
                     Zipcode = model.Zipcode,
                     Boligsiden = model.BoligsidenAddresse,
                     Boliga = model.BoligaAddresse,
-                    InsertDate = model.InsertDate = DateTime.Now
+                    StartLiggetid = model.StartLiggetid
                 };
 
                 context.AddRange(newAddress);
