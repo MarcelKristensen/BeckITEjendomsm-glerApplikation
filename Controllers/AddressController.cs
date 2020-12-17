@@ -33,16 +33,7 @@ namespace BeckITEjendomsmæglerApplikation.Controllers
         public ViewResult Create()
         {
             return View();
-        }
-       
-        //DELETE
-        public async Task<IActionResult> Delete(int? id)
-        {
-            var address = await context.Addresses.FindAsync(id);
-            context.Addresses.Remove(address);
-            await context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        }      
 
         //POST
         [HttpPost]
@@ -66,6 +57,15 @@ namespace BeckITEjendomsmæglerApplikation.Controllers
             }
 
             return View();
+        }
+
+        //DELETE
+        public async Task<IActionResult> Delete(int? id)
+        {
+            var address = await context.Addresses.FindAsync(id);
+            context.Addresses.Remove(address);
+            await context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

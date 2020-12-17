@@ -17,6 +17,26 @@ namespace BeckITEjendomsmæglerApplikation.ViewModels
         [DisplayName("Postnummer")]
         public string Zipcode { get; set; }
         [DisplayName("Liggetid")]
+        [Required]
         public int StartLiggetid { get; set; }
+        public TimeSpan? Liggetid { get { return CalculateLiggetid(); } set { } }
+
+        public TimeSpan CalculateLiggetid()
+        {
+            DateTime doi = DateOfInsertion;
+            DateTime don = DateTime.Today;
+            TimeSpan interval = doi - don;
+            return interval;
+        }
+
+        public DateTime DateOfInsertion { get { return CalculateStartLiggetid(); } set { } }
+
+        public DateTime CalculateStartLiggetid()
+        {
+            int startLiggetid = StartLiggetid;
+            DateTime dt = DateTime.Now;
+            dt = dt.AddDays(-startLiggetid);
+            return dt;
+        }
     }
 }

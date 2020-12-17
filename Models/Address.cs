@@ -23,8 +23,26 @@ namespace BeckITEjendomsmæglerApplikation.Models
         public int? BoligsidenID { get; set; }
         [ForeignKey("BoligsidenID")]
         public BoligsidenAddress Boligsiden { get; set; }
-        [DisplayName("Liggetid")]
-        public int? StartLiggetid { get; set; }
+        public int StartLiggetid { get; set; }
+        public DateTime DateOfInsertion { get { return CalculateStartLiggetid(); } set {  } }
+        public int? Liggetid { get { return CalculateLiggetid(); } set { } }
+
+        public DateTime CalculateStartLiggetid()
+        {
+            int startLiggetid = StartLiggetid;
+            DateTime dt = DateTime.Now;
+            dt = dt.AddDays(-startLiggetid);
+            return dt;
+        }
+
+        public int CalculateLiggetid()
+        {
+            DateTime StartDate = DateOfInsertion;
+            DateTime CurrentDate = DateTime.Now;
+            TimeSpan interval = (CurrentDate - StartDate);
+            return interval.Days;
+        }
+
     }
 }
 
