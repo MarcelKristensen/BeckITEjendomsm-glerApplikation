@@ -27,14 +27,6 @@ namespace BeckITEjendomsmæglerApplikation.Models
         public DateTime DateOfInsertion { get; set; }
         public int? Liggetid { get { return CalculateLiggetid(); } set { } }
 
-       // public DateTime CalculateStartLiggetid()
-       // {
-       //     int startLiggetid = StartLiggetid;
-       //     DateTime dt = DateTime.Now;
-       //     dt = dt.AddDays(-startLiggetid);
-       //     return dt;
-       // }
-
         public int CalculateLiggetid()
         {
             DateTime StartDate = DateOfInsertion;

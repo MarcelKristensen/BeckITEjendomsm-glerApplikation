@@ -47,7 +47,8 @@ namespace BeckITEjendomsmæglerApplikation.Controllers
                     Zipcode = model.Zipcode,
                     Boligsiden = model.BoligsidenAddresse,
                     Boliga = model.BoligaAddresse,
-                    StartLiggetid = model.StartLiggetid
+                    StartLiggetid = model.StartLiggetid,
+                    DateOfInsertion = model.DateOfInsertion
                 };
 
                 context.AddRange(newAddress);

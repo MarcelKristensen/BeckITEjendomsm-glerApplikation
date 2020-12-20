@@ -19,15 +19,6 @@ namespace BeckITEjendomsmæglerApplikation.ViewModels
         [DisplayName("Liggetid")]
         [Required]
         public int StartLiggetid { get; set; }
-        public TimeSpan? Liggetid { get { return CalculateLiggetid(); } set { } }
-
-        public TimeSpan CalculateLiggetid()
-        {
-            DateTime doi = DateOfInsertion;
-            DateTime don = DateTime.Today;
-            TimeSpan interval = doi - don;
-            return interval;
-        }
 
         public DateTime DateOfInsertion { get { return CalculateStartLiggetid(); } set { } }
 
