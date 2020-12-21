@@ -25,15 +25,15 @@ namespace BeckITEjendomsmæglerApplikation.Models
         public BoligsidenAddress Boligsiden { get; set; }
         public int StartLiggetid { get; set; }
         public DateTime DateOfInsertion { get; set; }
-        public int? Liggetid { get { return CalculateLiggetid(); } set { } }
+        public int? Liggetid { get; set; }
 
-        public int CalculateLiggetid()
-        {
-            DateTime StartDate = DateOfInsertion;
-            DateTime CurrentDate = DateTime.Now;
-            TimeSpan interval = (CurrentDate - StartDate);
-            return interval.Days;
-        }
+       //   public int CalculateLiggetid()
+       // {
+       //   DateTime StartDate = DateOfInsertion;
+       //   DateTime CurrentDate = DateTime.Now;
+       //   TimeSpan interval = (CurrentDate - StartDate);
+       //   return interval.Days;
+       // }
 
     }
 }
