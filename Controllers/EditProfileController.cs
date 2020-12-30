@@ -1,4 +1,4 @@
-﻿//using BeckITEjendomsmæglerApplikation.Models;
+//using BeckITEjendomsmæglerApplikation.Models;
 //using Microsoft.AspNetCore.Identity;
 //using Microsoft.AspNetCore.Mvc;
 //using System;
@@ -19,8 +19,6 @@
 //        }
 
 //        [HttpPost]
-
-
 //        public IActionResult Index()
 //        {
 //            return View();
