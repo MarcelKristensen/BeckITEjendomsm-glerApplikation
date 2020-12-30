@@ -15,6 +15,8 @@ namespace BeckITEjendomsmæglerApplikation.DatabaseContext
         public DbSet<Address> Addresses { get; set; }
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
 
+        public DbSet<Files> Files { get; set; }
+
         //Bruges til IdentityUser og Entityframework migrations
         protected override void OnModelCreating(ModelBuilder builder)
         {
