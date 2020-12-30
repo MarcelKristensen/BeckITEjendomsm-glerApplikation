@@ -6,20 +6,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using BeckITEjendomsmæglerApplikation.ViewModels;
 using BeckITEjendomsmæglerApplikation.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BeckITEjendomsmæglerApplikation.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
-
-        private Task<ApplicationUser> GetCurrentUserAsync() => userManager.GetUserAsync(HttpContext.User);
-        public async Task<string> GetId()
-        {
-            ApplicationUser appUsr = await GetCurrentUserAsync();
-            return appUsr.Id;
-        }
 
         public AccountController(UserManager<ApplicationUser> userManager,
                                  SignInManager<ApplicationUser> signInManager)
@@ -32,12 +27,11 @@ namespace BeckITEjendomsmæglerApplikation.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteUser()
         {
-            string id = await GetId();
-            ApplicationUser user = await userManager.FindByIdAsync(id);
+            ApplicationUser user = await userManager.GetUserAsync(HttpContext.User);
 
             if (user == null)
             {
-                ViewBag.ErrorMessage = $"User with Id = {id} cannot be found";
+                ViewBag.ErrorMessage = $"User cannot be found";
                 return View("NotFound");
             }
             else
@@ -46,6 +40,7 @@ namespace BeckITEjendomsmæglerApplikation.Controllers
 
                 if (result.Succeeded)
                 {
+                    await signInManager.SignOutAsync();
                     return RedirectToAction("index", "home");
                 }
 
@@ -64,38 +59,11 @@ namespace BeckITEjendomsmæglerApplikation.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> EditProfile()
-        //{
-
-        //    var user = await GetCurrentUserAsync();
-        //    if (user == null)
-        //    {
-        //        ViewBag.ErrorMessage = $"Cannot find user";
-        //        return View("NotFound");
-        //    }
-
-        //    //TODO indarbejd roller (og claims? undersøg)
-        //    //var userClaims = await userManager.GetClaimsAsync(user);
-        //    //var userRoles = await userManager.GetRolesAsync(user);
-
-
-        //    var model = new EditProfileViewModel
-        //    {
-        //        Name = user.Name,
-        //        Email = user.Email,
-        //        City = user.City,
-        //        PhoneNumber = user.PhoneNumber
-
-        //    };
-        //    return View(model);
-        //}
-
         [HttpPost]
         public async Task<IActionResult> EditProfile(EditProfileViewModel model)
         {
-            string id = await GetId();
-            ApplicationUser user = await userManager.FindByIdAsync(id);
+            //string id = await GetId();
+            ApplicationUser user = await userManager.GetUserAsync(HttpContext.User);
             if (user == null)
             {
                 ViewBag.ErrorMessage = $"Cannot find user";
@@ -103,26 +71,22 @@ namespace BeckITEjendomsmæglerApplikation.Controllers
             }
             else
             {
-                //if (model.Name != null)
-                //{
-                //    user.Name = model.Name;
-                //}
-                //if (model.Email != null)
-                //{
-                //    user.Email = model.Email;
-                //}
-                //if (model.City != null)
-                //{
-                //    user.City = model.City;
-                //}
-                //if (model.PhoneNumber != null)
-                //{
-                //    user.PhoneNumber = model.PhoneNumber;
-                //}
-                user.Name = model.Name;
-                user.Email = model.Email;
-                user.City = model.City;
-                user.PhoneNumber = model.PhoneNumber;
+                if (!String.IsNullOrEmpty(model.Name))
+                {
+                    user.Name = model.Name;
+                }
+                if (!String.IsNullOrEmpty(model.Email))
+                {
+                    user.Email = model.Email;
+                }
+                if (!String.IsNullOrEmpty(model.City))
+                {
+                    user.City = model.City;
+                }
+                if (!String.IsNullOrEmpty(model.PhoneNumber))
+                {
+                    user.PhoneNumber = model.PhoneNumber;
+                }
                 var result = await userManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
@@ -134,46 +98,18 @@ namespace BeckITEjendomsmæglerApplikation.Controllers
                 }
                 return View(model);
 
-            }
-            //var model = new EditProfileViewModel
-            //{
-            //    Name = user.Name,
-            //    Email = user.Email,
-            //    City = user.City,
-            //    PhoneNumber = user.PhoneNumber
-
-            //};
-            
+            }            
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> EditProfile(string id)
-        //{
-        //    var user = await userManager.FindByIdAsync(id);
-        //    if (user == null)
-        //    {
-        //        ViewBag.ErrorMessage = $"Cannot find user";
-        //        return View("NotFound");
-        //    }
-
-        //    var model = new EditProfileViewModel
-        //    {
-        //        Name = user.Name,
-        //        Email = user.Email,
-        //        City = user.City,
-        //        PhoneNumber = user.PhoneNumber
-
-        //    };
-        //    return View(model);
-        //}
-
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
@@ -198,21 +134,24 @@ namespace BeckITEjendomsmæglerApplikation.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Registration()
         {
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Registration(RegistrationViewModel model)
         {
             if(ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new NewUser { UserName = model.Email, Email = model.Email, UserRole = model.UserRole};
                 var result = await userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
+                    await userManager.AddToRoleAsync(user, model.UserRole);
                     await signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("index", "home");
                 }
@@ -220,7 +159,7 @@ namespace BeckITEjendomsmæglerApplikation.Controllers
                 foreach(var error in result.Errors)
                 {
                     ModelState.AddModelError("", error.Description);
-                }
+                }                
             }
 
             return View(model);

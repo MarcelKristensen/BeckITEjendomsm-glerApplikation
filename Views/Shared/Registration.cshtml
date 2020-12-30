@@ -7,7 +7,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <form method="post">
+        <form method="post" asp-controller="Account" asp-action="Registration">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Email"></label>
@@ -24,6 +24,10 @@
                 <input asp-for="ConfirmPassword" class="form-control"/>
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
+            <select asp-for="UserRole">
+                <option  value="Ejendomsmægler">Ejendomsmægler</option>
+                <option value="Standard">Standard</option>  
+            </select>
             <button type="submit" class="btn btn-primary">Register</button>
         </form>
     </div>
