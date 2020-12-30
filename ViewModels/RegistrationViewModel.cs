@@ -22,5 +22,9 @@ namespace BeckITEjendomsmæglerApplikation.ViewModels
         [Compare("Password",
             ErrorMessage = "Passwords do not match.")]
         public string ConfirmPassword { get; set; }
+
+        public string UserRole { get; set; }
     }
+
+
 }

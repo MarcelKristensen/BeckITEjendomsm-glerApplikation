@@ -1,4 +1,5 @@
 ﻿using BeckITEjendomsmæglerApplikation.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
@@ -6,6 +7,7 @@ using System.Diagnostics;
 
 namespace BeckITEjendomsmæglerApplikation.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
