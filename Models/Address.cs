@@ -29,6 +29,8 @@ namespace BeckITEjendomsmæglerApplikation.Models
         public BoligsidenAddress Boligsiden { get; set; }
 
         public int StartLiggetid { get; set; }
+        public int Liggetid { get; set; }
+        public DateTime DateOfInsertion  { get; set; }
 
         public int BoligTypeID { get; set; }
         [ForeignKey("BoligTypeID")]
