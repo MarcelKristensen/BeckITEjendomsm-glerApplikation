@@ -15,6 +15,16 @@
                 @*<span asp-validation-for="Email" class="text-danger"></span>*@
             </div>
             <div class="form-group">
+                <label asp-for="StLiggetid"></label>
+                <input asp-for="StLiggetid" class="form-control" />
+                @*<span asp-validation-for="Email" class="text-danger"></span>*@
+            </div>
+            <div class="form-group">
+                <label asp-for="SlLiggetid"></label>
+                <input asp-for="SlLiggetid" class="form-control" />
+                @*<span asp-validation-for="Email" class="text-danger"></span>*@
+            </div>
+            <div class="form-group">
                 <div class="checkbox">
                     <label asp-for="Ejerlejlighed">
                         <input asp-for="Ejerlejlighed" />
@@ -61,4 +71,54 @@
             <button type="submit" class="btn btn-primary">Search</button>
         </form>
     </div>
+    <table class="table">
+        @*<thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.rList.Street)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Zipcode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Liggetid)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Boligsiden.BoligsidenHyperlink)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Boliga.BoligaHyperlink)
+                </th>
+            </tr>
+        </thead>*@
+        <tbody>
+            @if (Model.rList != null)
+            {
+                @foreach (var item in Model.rList)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Street)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Zipcode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Liggetid)
+                        </td>
+                        <td>
+                            <a href="@Html.DisplayFor(modelItem => item.Boligsiden.BoligsidenHyperlink)" target="_blank">@Html.DisplayFor(modelItem => item.Street)</a>
+                        </td>
+                        <td>
+                            <a href="@Html.DisplayFor(modelItem => item.Boliga.BoligaHyperlink)" target="_blank">@Html.DisplayFor(modelItem => item.Street)</a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Type.BoligTypeNavn)
+                        </td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
 </div>

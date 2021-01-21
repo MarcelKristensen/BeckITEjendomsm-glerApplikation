@@ -146,11 +146,12 @@ namespace BeckITEjendomsmæglerApplikation.Controllers
         {
             if(ModelState.IsValid)
             {
-                var user = new NewUser { UserName = model.Email, Email = model.Email, UserRole = model.UserRole};
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email};
                 var result = await userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
+                    //TODO kan introducere if sætning for at sikre at AddToRole er succesfuld.
                     await userManager.AddToRoleAsync(user, model.UserRole);
                     await signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("index", "home");
