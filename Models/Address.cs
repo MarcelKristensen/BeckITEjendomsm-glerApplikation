@@ -1,4 +1,4 @@
-﻿using BeckITEjendomsmæglerApplikation.Models.AddressHyperlinks;
+using BeckITEjendomsmæglerApplikation.Models.AddressHyperlinks;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -24,8 +24,8 @@ namespace BeckITEjendomsmæglerApplikation.Models
         [ForeignKey("BoligsidenID")]
         public BoligsidenAddress Boligsiden { get; set; }
         public int StartLiggetid { get; set; }
-        public DateTime DateOfInsertion { get { return CalculateStartLiggetid(); } set {  } }
-        public int? Liggetid { get { return CalculateLiggetid(); } set { } }
+        public DateTime DateOfInsertion { get; set; }
+        public int? Liggetid { get; set; }
 
         public int BoligTypeID { get; set; }
         [ForeignKey("BoligTypeID")]
@@ -57,6 +57,6 @@ namespace BeckITEjendomsmæglerApplikation.Models
             return interval.Days;
         }
 
+
     }
 }
-
