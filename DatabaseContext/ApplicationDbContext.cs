@@ -13,7 +13,6 @@ namespace BeckITEjendomsmæglerApplikation.DatabaseContext
 
         }
         public DbSet<Address> Addresses { get; set; }
-        public DbSet<BoligType> BoligTyper { get; set; }
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
 
         //Bruges til IdentityUser og Entityframework migrations

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BeckITEjendomsmæglerApplikation.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [AllowAnonymous]
     public class AdministrationController : Controller
     {
         private readonly RoleManager<IdentityRole> roleManager;

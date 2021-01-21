@@ -1,6 +1,5 @@
 ﻿using BeckITEjendomsmæglerApplikation.DatabaseContext;
 using BeckITEjendomsmæglerApplikation.Models;
-using BeckITEjendomsmæglerApplikation.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -22,104 +21,94 @@ namespace BeckITEjendomsmæglerApplikation.Controllers
         [HttpGet]
         public IActionResult Search()
         {
-            SearchViewModel m = new SearchViewModel();
-            return View(m);
+            return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Search(SearchViewModel model)
+        public async Task<IActionResult> Search(SearchQuery search)
         {
-            if (ModelState.IsValid)
+            //var result = new Address();
+            var resultList = new List<Address>();
+            var finalList = new List<Address>();
+            if (search.Andelsbolig == true)
             {
-
-
-                var addresses = _context.Addresses
-                .Include(c => c.Boliga)
-                .Include(c => c.Boligsiden)
-                .Include(c => c.Type)
-                .AsNoTracking();
-                var addList = await addresses.ToListAsync();
-                var resultList = new List<Address>();
-
-                if (model.Andelsbolig == true)
+                foreach (var n in _context.Addresses.Where(s => s.Andelsbolig == true))
                 {
-                    foreach (var n in addList.Where(s => s.Type.BoligTypeNavn == "Andelsbolig"))
-                    {
-                        resultList.Add(n);
-                    }
-                }
-                if (model.Ejerlejlighed == true)
-                {
-                    foreach (var n in addList.Where(s => s.Type.BoligTypeNavn == "Ejerlejlighed"))
-                    {
-                        resultList.Add(n);
-                    }
-                }
-                if (model.Fritidsbolig == true)
-                {
-                    foreach (var n in addList.Where(s => s.Type.BoligTypeNavn == "Fritidsbolig"))
-                    {
-                        resultList.Add(n);
-                    }
-                }
-                if (model.Fritidsgrund == true)
-                {
-                    foreach (var n in addList.Where(s => s.Type.BoligTypeNavn == "Fritidsgrund"))
-                    {
-                        resultList.Add(n);
-                    }
-                }
-                if (model.Helårsgrund == true)
-                {
-                    foreach (var n in addList.Where(s => s.Type.BoligTypeNavn == "Helårsgrund"))
-                    {
-                        resultList.Add(n);
-                    }
-                }
-                if (model.Landejendom == true)
-                {
-                    foreach (var n in addList.Where(s => s.Type.BoligTypeNavn == "Landejendom"))
-                    {
-                        resultList.Add(n);
-                    }
-                }
-                if (model.Rækkehus == true)
-                {
-                    foreach (var n in addList.Where(s => s.Type.BoligTypeNavn == "Rækkehus"))
-                    {
-                        resultList.Add(n);
-                    }
-                }
-                if (model.Villa == true)
-                {
-                    foreach (var n in addList.Where(s => s.Type.BoligTypeNavn == "Villa"))
-                    {
-                        resultList.Add(n);
-                    }
-
-                }
-                if (model.Villalejlighed == true)
-                {
-                    foreach (var n in addList.Where(s => s.Type.BoligTypeNavn == "Villalejlighed"))
-                    {
-                        resultList.Add(n);
-                    }
-                }
-
-                resultList = resultList.Where(x => x.Liggetid >= model.StLiggetid & x.Liggetid <= model.SlLiggetid).ToList();
-
-                if (!String.IsNullOrEmpty(model.Query))
-                {
-                    resultList = resultList.Where(x => x.Street.ToLower().Contains(model.Query.ToLower())
-                                                        || x.Zipcode.Contains(model.Query.ToLower())
-                                                        /*|| x.City.Contains(model.Query.ToLower())*/
-                                                        /*|| x.County.Contains(model.Query.ToLower())*/
-                                                        /*|| x.Landsdel.Contains(model.Query.ToLower())*/).ToList();
-                }
-                model.rList = resultList;
-                return View(model);
+                    resultList.Add(n);
+                }                
             }
-            return View(model);
+            if (search.Ejerlejlighed == true)
+            {
+                foreach (var n in _context.Addresses.Where(s => s.Ejerlejlighed == true))
+                {
+                    resultList.Add(n);
+                }
+            }
+            if (search.Fritidsbolig == true)
+            {
+                foreach (var n in _context.Addresses.Where(s => s.Fritidsbolig == true))
+                {
+                    resultList.Add(n);
+                }
+            }
+            if (search.Fritidsgrund == true)
+            {
+                foreach (var n in _context.Addresses.Where(s => s.Fritidsgrund == true))
+                {
+                    resultList.Add(n);
+                }
+            }
+            if (search.Helårsgrund == true)
+            {
+                foreach (var n in _context.Addresses.Where(s => s.Helårsgrund == true))
+                {
+                    resultList.Add(n);
+                }
+            }
+            if (search.Landejendom == true)
+            {
+                foreach (var n in _context.Addresses.Where(s => s.Landejendom == true))
+                {
+                    resultList.Add(n);
+                }
+            }
+            if (search.Rækkehus == true)
+            {
+                foreach (var n in _context.Addresses.Where(s => s.Rækkehus == true))
+                {
+                    resultList.Add(n);
+                }
+            }
+            if (search.Villa == true)
+            {
+                foreach (var n in _context.Addresses.Where(s => s.Villa == true))
+                {
+                    resultList.Add(n);
+                }
+            }
+            if (search.Villalejlighed == true)
+            {
+                foreach (var n in _context.Addresses.Where(s => s.Villalejlighed == true))
+                {
+                    resultList.Add(n);
+                }
+            }
+
+            if (!String.IsNullOrEmpty(search.Query))
+            {
+                foreach (var n in resultList)
+                {
+                    if (n.Street.Contains(search.Query) || n.Zipcode.Contains(search.Query)/* || n.City.Contains(search.Query) || n.County.Contains(search.Query) || n.Landsdel.Contains(search.Query)*/)
+                    {
+                        finalList.Add(n);
+                    }
+                }
+                return View(finalList);
+            }
+            else
+            {
+                return View(resultList);
+            }
         }
     }
 }
