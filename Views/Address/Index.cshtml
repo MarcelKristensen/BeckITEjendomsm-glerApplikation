@@ -27,6 +27,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Boliga.BoligaHyperlink)
             </th>
+            <th>
+                Files
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -43,14 +46,17 @@
                 @Html.DisplayFor(modelItem => item.Liggetid)
             </td>
             <td>
-                <a href="@Html.DisplayFor(modelItem => item.Boligsiden.BoligsidenHyperlink)" target="_blank">@Html.DisplayFor(modelItem => item.Street)</a>
+                <a href="@Html.DisplayFor(modelItem => item.Boligsiden.BoligsidenHyperlink)" target="_blank">Link</a>
             </td>
             <td>
-                <a href="@Html.DisplayFor(modelItem => item.Boliga.BoligaHyperlink)" target="_blank">@Html.DisplayFor(modelItem => item.Street)</a>
+                <a href="@Html.DisplayFor(modelItem => item.Boliga.BoligaHyperlink)" target="_blank">Link</a>
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.AddressId">Edit</a>
-                <a asp-action="Delete" asp-route-id="@item.AddressId" class="text-danger ml-1" onclick="return confirm('Are you sure you want to delete this?')">Delete</a>
+                <a asp-controller="Address" asp-action="Upload" asp-route-id="@item.DocumentId">Upload File</a>
+            </td>
+            <td>
+                <!--<a asp-action="Edit" asp-route-id="@item.AddressId">Edit</a>-->
+                <a asp-action="Delete" asp-route-id="@item.AddressId" class="text-danger ml-1" onclick="return confirm('Are you sure you want to delete this Address?')">Delete</a>
             </td>
         </tr>
                         }

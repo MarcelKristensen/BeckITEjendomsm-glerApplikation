@@ -1,22 +1,39 @@
-﻿@{
-    ViewData["Title"] = "Index";
+﻿@model IEnumerable<Files>
+
+@{
+    ViewBag.Title = "Files";
 }
 
-<h1>Index</h1>
-<div class="row">
-    <div class="col-md-5">
-        <form method="post" enctype="multipart/form-data" asp-controller="FileUpload" asp-action="Index">
-            <div class="form-group">
-                <div class="col-md-10">
-                    <p>Upload file</p>
-                    <input class="form-control" name="files" type="file" />
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-10">
-                    <input class="btn btn-success" type="submit" value="Upload" />
-                </div>
-            </div>
-        </form>
-    </div>
-</div> 
+<h2>Files</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FileType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedOn)
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FileType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedOn)
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

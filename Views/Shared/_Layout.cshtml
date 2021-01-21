@@ -23,6 +23,12 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Address" asp-action="Index">Address List</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Calendar" asp-action="Index">Calendar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="FileUpload" asp-action="Index">Files</a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav ml-auto">
                         @if (signInManager.IsSignedIn(User))

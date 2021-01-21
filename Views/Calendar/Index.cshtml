@@ -1,0 +1,78 @@
+﻿
+
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='utf-8' />
+
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/main.css' rel='stylesheet' />
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/locales-all.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            var initialLocaleCode = 'en';
+            var localeSelectorEl = document.getElementById('locale-selector');
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                headerToolbar: {
+                    start: 'prevYear,nextYear,title',
+                    center: 'dayGridMonth,timeGridWeek,timeGridDay',
+                    end: 'today prev,next'
+                },
+                locale: initialLocaleCode,
+                timeZone: 'local',
+                themeSystem: 'standard',
+                weekNumbers: true,
+                dayHeaderFormat: { weekday: 'long' },
+                dateClick: function () {
+                    alert('a day had been click!');
+                },
+                googleCalendarApiKey: 'AIzaSyArrQu2Sv1FdHjhezWMKP80Ai8QWb24zaw',
+                events:
+                {
+                    googleCalendarId: 'uod6u6mhea981mvd8j7s9mdco0@group.calendar.google.com'
+                },
+                eventClick: function(arg) {
+
+                    // opens events in a popup window
+                    window.open(arg.event.url, '_blank', 'width=700,height=600');
+
+                    // prevents current tab from navigating
+                    arg.jsEvent.preventDefault();
+                }
+            });
+            calendar.render();
+
+            calendar.getAvailableLocaleCodes().forEach(function (localeCode) {
+                var optionEl = document.createElement('option');
+                optionEl.value = localeCode;
+                optionEl.selected = localeCode == initialLocaleCode;
+                optionEl.innerText = localeCode;
+                localeSelectorEl.appendChild(optionEl);
+            });
+
+            // when the selected option changes, dynamically change the calendar option
+            localeSelectorEl.addEventListener('change', function () {
+                if (this.value) {
+                    calendar.setOption('locale', this.value);
+                }
+            });
+        });
+
+    </script>
+</head>
+<body>
+<div id='top'>
+
+    Locales:
+
+    <select id='locale-selector'></select>
+</div>
+<hr/>
+<div id='calendar'></div>
+</body>
+</html>
