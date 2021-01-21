@@ -30,12 +30,8 @@ namespace BeckITEjendomsmæglerApplikation.Models
 
         public int StartLiggetid { get; set; }
 
-        public DateTime DateOfInsertion { get; set; }
-
-        public int? Liggetid { get; set; }
-
-        [ForeignKey("DocumentId")]
-        public Files Files { get; set; }
-        public int? DocumentId { get; set; }
+        public int BoligTypeID { get; set; }
+        [ForeignKey("BoligTypeID")]
+        public BoligType Type { get; set; }
     }
 }
