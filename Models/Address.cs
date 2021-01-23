@@ -20,7 +20,9 @@ namespace BeckITEjendomsmæglerApplikation.Models
 
         public int StartLiggetid { get; set; }
 
-        public int Liggetid { get; set; }
+        public int Liggetid
+        {
+            get { return CalculateLiggetid(); } set { } }
 
         public DateTime DateOfInsertion { get; set; }
 
@@ -38,8 +40,16 @@ namespace BeckITEjendomsmæglerApplikation.Models
         [ForeignKey("DocumentId")]
         public Files File { get; set; }
 
-        public int BoligTypeID { get; set; }
+        public int? BoligTypeID { get; set; }
         [ForeignKey("BoligTypeID")]
         public BoligType Type { get; set; }
+
+        public int CalculateLiggetid()
+        {
+            DateTime doi = DateOfInsertion;
+            DateTime don = DateTime.Now;
+            TimeSpan interval = don - doi;
+            return interval.Days;
+        }
     }
 }
