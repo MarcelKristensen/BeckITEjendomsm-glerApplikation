@@ -1,6 +1,4 @@
-﻿
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang='en'>
 <head>
     <meta charset='utf-8' />
@@ -9,14 +7,14 @@
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/main.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/locales-all.js"></script>
+    <script src="https://apis.google.com/js/api.js"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
 
+        document.addEventListener('DOMContentLoaded', function () {
             var initialLocaleCode = 'en';
             var localeSelectorEl = document.getElementById('locale-selector');
             var calendarEl = document.getElementById('calendar');
-
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 headerToolbar: {
                     start: 'prevYear,nextYear,title',
@@ -28,25 +26,36 @@
                 themeSystem: 'standard',
                 weekNumbers: true,
                 dayHeaderFormat: { weekday: 'long' },
-                dateClick: function () {
-                    alert('a day had been click!');
-                },
                 googleCalendarApiKey: 'AIzaSyArrQu2Sv1FdHjhezWMKP80Ai8QWb24zaw',
                 events:
                 {
                     googleCalendarId: 'uod6u6mhea981mvd8j7s9mdco0@group.calendar.google.com'
                 },
-                eventClick: function(arg) {
-
+                eventClick: function (arg) {
                     // opens events in a popup window
                     window.open(arg.event.url, '_blank', 'width=700,height=600');
-
                     // prevents current tab from navigating
                     arg.jsEvent.preventDefault();
+                },
+                selectable: true,
+                select: function (start, end) {
+                    events = {
+                        title: '',
+                        description: '',
+                        start: start,
+                        end: end
+                    };
+                    openAddEditForm();
                 }
             });
-            calendar.render();
 
+            function openAddEditForm() {
+
+                
+                $('#myModalSave').modal();
+            }
+
+            calendar.render();
             calendar.getAvailableLocaleCodes().forEach(function (localeCode) {
                 var optionEl = document.createElement('option');
                 optionEl.value = localeCode;
@@ -66,6 +75,55 @@
     </script>
 </head>
 <body>
+    <div id="myModalSave" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="col-lg-12 modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Save Activity</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <input type="hidden" id="hdEventID" value="0" />
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <input type="text" id="txtSubject" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>Start</label>
+                            <div class="input-group date" id="dtp1">
+                                <input type="text" id="txtStart" class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label><input type="checkbox" id="chkIsFullDay" checked="checked" /> Is Full Day event</label>
+                            </div>
+                        </div>
+                        <div class="form-group" id="divEndDate" style="display:none">
+                            <label>End</label>
+                            <div class="input-group date" id="dtp2">
+                                <input type="text" id="txtEnd" class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="txtDescription" rows="3" class="form-control"></textarea>
+                        </div>
+                        <button type="button" id="btnSave" class="btn btn-success">Save</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <div id='top'>
 
     Locales:
@@ -76,3 +134,51 @@
 <div id='calendar'></div>
 </body>
 </html>
+
+
+<script>
+    /**
+    * Sample JavaScript code for calendar.events.insert
+    * See instructions for running APIs Explorer code samples locally:
+    * https://developers.google.com/explorer-help/guides/code_samples#javascript
+    */
+
+    function authenticate() {
+        return gapi.auth2.getAuthInstance()
+            .signIn({ scope: "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events" })
+            .then(function () { console.log("Sign-in successful"); },
+                function (err) { console.error("Error signing in", err); });
+    }
+    function loadClient() {
+        gapi.client.setApiKey("AIzaSyArrQu2Sv1FdHjhezWMKP80Ai8QWb24zaw");
+        return gapi.client.load("https://content.googleapis.com/discovery/v1/apis/calendar/v3/rest")
+            .then(function () { console.log("GAPI client loaded for API"); },
+                function (err) { console.error("Error loading GAPI client for API", err); });
+    }
+    // Make sure the client is loaded and sign-in is complete before calling this method.
+    function execute() {
+        return gapi.client.calendar.events.insert({
+            "calendarId": "https://calendar.google.com/calendar/embed?src=uod6u6mhea981mvd8j7s9mdco0%40group.calendar.google.com&ctz=Europe%2FCopenhagen",
+            "maxAttendees": 2,
+            "resource": {
+                "end": {
+                    "date": "2021/01/23"
+                },
+                "start": {
+                    "date": "2021/01/24"
+                },
+                "description": "Hey this is a description"
+            }
+        })
+            .then(function (response) {
+                // Handle the results here (response.result has the parsed body).
+                console.log("Response", response);
+            },
+                function (err) { console.error("Execute error", err); });
+    }
+    gapi.load("client:auth2", function () {
+        gapi.auth2.init({ client_id: "570013534372-k8g0jprshf2t9sqmlcff8ei10lhkdqpm.apps.googleusercontent.com" });
+    });
+</script>
+<button onclick="authenticate().then(loadClient)">authorize and load</button>
+<button onclick="execute()">execute</button>

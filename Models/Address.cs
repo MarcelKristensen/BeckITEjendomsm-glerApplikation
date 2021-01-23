@@ -18,6 +18,12 @@ namespace BeckITEjendomsmæglerApplikation.Models
         [DisplayName("Postnummer")]
         public string Zipcode { get; set; }
 
+        public int StartLiggetid { get; set; }
+
+        public int Liggetid { get; set; }
+
+        public DateTime DateOfInsertion { get; set; }
+
         [DisplayName("Boliga Link")]
         public int? BoligaID { get; set; }
         [ForeignKey("BoligaID")]
@@ -28,9 +34,9 @@ namespace BeckITEjendomsmæglerApplikation.Models
         [ForeignKey("BoligsidenID")]
         public BoligsidenAddress Boligsiden { get; set; }
 
-        public int StartLiggetid { get; set; }
-        public int Liggetid { get; set; }
-        public DateTime DateOfInsertion  { get; set; }
+        public int? DocumentId { get; set; }
+        [ForeignKey("DocumentId")]
+        public Files File { get; set; }
 
         public int BoligTypeID { get; set; }
         [ForeignKey("BoligTypeID")]

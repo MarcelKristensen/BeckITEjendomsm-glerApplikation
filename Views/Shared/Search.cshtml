@@ -3,7 +3,7 @@
     ViewBag.Title = "Search";
 }
 
-<h1>Search Function</h1>
+<h1>Søge funktion</h1>
 
 <div class="row">
     <div class="col-md-12">
@@ -21,12 +21,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="SlLiggetid"></label>
-                <input asp-for="SlLiggetid" class="form-control" />
+                <input asp-for="SlLiggetid" class="form-control" value="180" />
                 @*<span asp-validation-for="Email" class="text-danger"></span>*@
             </div>
+
             <div class="form-group">
                 <div class="checkbox">
-                    <label asp-for="Ejerlejlighed">
+                    <label asp-for="Ejerlejlighed" >
                         <input asp-for="Ejerlejlighed" />
                         @Html.DisplayNameFor(m => m.Ejerlejlighed)
                     </label>
@@ -68,7 +69,7 @@
                     </label>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Search</button>
+            <button type="submit" class="btn btn-primary">Søg</button>
         </form>
     </div>
     <table class="table">

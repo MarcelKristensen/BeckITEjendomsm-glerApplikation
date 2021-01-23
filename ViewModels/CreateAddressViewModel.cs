@@ -12,6 +12,8 @@ namespace BeckITEjendomsmæglerApplikation.ViewModels
 
         public BoligsidenAddress BoligsidenAddresse { get; set; }
 
+        public BoligType Type { get; set; }
+
         public string BoligaStreet { get; set; }
 
         [Required]
