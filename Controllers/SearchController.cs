@@ -31,16 +31,14 @@ namespace BeckITEjendomsmæglerApplikation.Controllers
         {
             if (ModelState.IsValid)
             {
-
-
                 var addresses = _context.Addresses
                 .Include(c => c.Boliga)
                 .Include(c => c.Boligsiden)
                 .Include(c => c.Type)
                 .AsNoTracking();
-                var addList = await addresses.ToListAsync();
+                var addList = await addresses.ToListAsync();                
                 var resultList = new List<Address>();
-
+                
                 if (model.Andelsbolig == true)
                 {
                     foreach (var n in addList.Where(s => s.Type.BoligTypeNavn == "Andelsbolig"))
@@ -106,7 +104,15 @@ namespace BeckITEjendomsmæglerApplikation.Controllers
                     }
                 }
 
-                resultList = resultList.Where(x => x.Liggetid >= model.StLiggetid & x.Liggetid <= model.SlLiggetid).ToList();
+                if (model.SlLiggetid == 0)
+                {
+                    resultList = resultList.Where(x => x.Liggetid >= model.StLiggetid).ToList();
+                }
+                else
+                {
+                    resultList = resultList.Where(x => x.Liggetid >= model.StLiggetid
+                                            & x.Liggetid <= model.SlLiggetid).ToList();
+                }
 
                 if (!String.IsNullOrEmpty(model.Query))
                 {

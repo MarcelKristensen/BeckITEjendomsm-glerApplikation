@@ -26,6 +26,32 @@ namespace BeckITEjendomsmæglerApplikation.ViewModels
         public bool Villa { get; set; }
         public bool Villalejlighed { get; set; }
 
+
+        public List<BType> btList = new List<BType> {
+            new BType("Villa", true),
+            new BType("Ejerlejlighed", true),
+            new BType("Rækkehus", true),
+            new BType("Andelsbolig", true),
+            new BType("Landejendom", true),
+            new BType("Fritidsbolig", true),
+            new BType("Villalejlighed", true),
+            new BType("Helårsgrund", true),
+            new BType("Fritidsgrund", true)
+        };
         public List<Address> rList = new List<Address>();
+
+
+    }
+
+    public class BType
+    {
+
+        public BType(string tn, bool ic)
+        {
+            TName = tn;
+            IsChecked = ic;
+        }
+        public string TName { get; set; }
+        public bool IsChecked { get; set; }
     }
 }
