@@ -1,26 +1,29 @@
-﻿
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang='en'>
 <head>
     <meta charset='utf-8' />
-
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">-->
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/main.css' rel='stylesheet' />
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/main.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/main.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/locales-all.js"></script>
 
+
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/main.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/main.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/locales-all.js"></script>
+
+        <script src="https://apis.google.com/js/api.js"></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
 
-            var initialLocaleCode = 'en';
+        document.addEventListener('DOMContentLoaded', function () {
+            var initialLocaleCode = 'da';
             var localeSelectorEl = document.getElementById('locale-selector');
             var calendarEl = document.getElementById('calendar');
-
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 headerToolbar: {
                     start: 'prevYear,nextYear,title',
-                    center: 'dayGridMonth,timeGridWeek,timeGridDay',
+                    center: 'dayGridMonth,timeGridWeek,timeGridDay AuthenticateButton',
                     end: 'today prev,next'
                 },
                 locale: initialLocaleCode,
@@ -28,25 +31,43 @@
                 themeSystem: 'standard',
                 weekNumbers: true,
                 dayHeaderFormat: { weekday: 'long' },
-                dateClick: function () {
-                    alert('a day had been click!');
-                },
                 googleCalendarApiKey: 'AIzaSyArrQu2Sv1FdHjhezWMKP80Ai8QWb24zaw',
+                customButtons: {
+                    AuthenticateButton: {
+                        text: 'Authenticate',
+                        click: function() {
+                            authenticate().then(loadClient);
+                        }
+                    }
+                },
                 events:
                 {
                     googleCalendarId: 'uod6u6mhea981mvd8j7s9mdco0@group.calendar.google.com'
                 },
-                eventClick: function(arg) {
-
+                eventClick: function (arg) {
                     // opens events in a popup window
                     window.open(arg.event.url, '_blank', 'width=700,height=600');
-
                     // prevents current tab from navigating
                     arg.jsEvent.preventDefault();
+                },
+                selectable: true,
+                select: function (start, end) {
+                    events = {
+                        title: '',
+                        description: '',
+                        start: start,
+                        end: end
+                    };
+                    openAddEditForm();
                 }
             });
-            calendar.render();
 
+
+            function openAddEditForm() {
+                $('#myModalSave').modal();
+            }
+
+            calendar.render();
             calendar.getAvailableLocaleCodes().forEach(function (localeCode) {
                 var optionEl = document.createElement('option');
                 optionEl.value = localeCode;
@@ -66,9 +87,45 @@
     </script>
 </head>
 <body>
+    <div id="myModalSave" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="col-lg-12 modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Save Activity</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <input type="hidden" id="hdEventID" value="0" />
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <input type="text" id="txtSubject" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>Start</label>
+                            <input type="text" id="txtStart" class="form-control" placeholder="YYYY-MM-DD" />
+                        </div>
+                        <div class="form-group">
+                            <label>End</label>
+                            <input type="text" id="txtEnd" class="form-control" placeholder="YYYY-MM-DD" />
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="txtDescription" rows="3" class="form-control"></textarea>
+                        </div>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button onclick="execute()" class="btn btn-success">Save</button>
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <div id='top'>
 
-    Locales:
+    Sprog:
 
     <select id='locale-selector'></select>
 </div>
@@ -76,3 +133,48 @@
 <div id='calendar'></div>
 </body>
 </html>
+
+
+<script>
+    /**
+    * Sample JavaScript code for calendar.events.insert
+    * See instructions for running APIs Explorer code samples locally:
+    * https://developers.google.com/explorer-help/guides/code_samples#javascript
+    */
+
+    function authenticate() {
+        return gapi.auth2.getAuthInstance()
+            .signIn({ scope: "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events" })
+            .then(function () { console.log("Sign-in successful"); },
+                function (err) { console.error("Error signing in", err); });
+    }
+    function loadClient() {
+        gapi.client.setApiKey("AIzaSyArrQu2Sv1FdHjhezWMKP80Ai8QWb24zaw");
+        return gapi.client.load("https://content.googleapis.com/discovery/v1/apis/calendar/v3/rest")
+            .then(function () { console.log("GAPI client loaded for API"); },
+                function (err) { console.error("Error loading GAPI client for API", err); });
+    }
+    function execute() {
+        return gapi.client.calendar.events.insert({
+                "calendarId": "uod6u6mhea981mvd8j7s9mdco0@group.calendar.google.com",
+            "resource": {
+                "summary":  $('#txtSubject').val().trim(),
+                    "end": {
+                        "date": $('#txtEnd').val()
+                    },
+                    "start": {
+                        "date": $('#txtStart').val()
+                    },
+                "description": $('#txtDescription').val().trim()
+            }
+            })
+            .then(function(response) {
+                    // Handle the results here (response.result has the parsed body).
+                    console.log("Response", response);
+                },
+                function(err) { console.error("Execute error", err); });
+    }
+    gapi.load("client:auth2", function() {
+        gapi.auth2.init({ client_id: "570013534372-k8g0jprshf2t9sqmlcff8ei10lhkdqpm.apps.googleusercontent.com"});
+    });
+</script>

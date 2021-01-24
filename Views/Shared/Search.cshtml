@@ -2,7 +2,6 @@
 @{
     ViewBag.Title = "Search";
 }
-
 <head>
     <style>
         div.a {
@@ -10,9 +9,7 @@
         }
     </style>
 </head>
-
-<h1>Search Function</h1>
-
+<h1>Søge funktion</h1>
 <div class="row">
     <div class="col-md-12">
         <form method="post" asp-controller="Search" asp-action="Search">
@@ -20,79 +17,26 @@
             <div class="form-group">
                 <label asp-for="Query"></label>
                 <input asp-for="Query" class="form-control" />
-
             </div>
             <div class="form-group">
                 <label asp-for="StLiggetid"></label>
                 <input asp-for="StLiggetid" class="form-control" />
-
             </div>
             <div class="form-group">
                 <label asp-for="SlLiggetid"></label>
                 <input asp-for="SlLiggetid" class="form-control" />
-
             </div>
-
             <div>
-
                 @for (int i = 0; i < Model.btList.Count; i++)
                 {
                     <input type="checkbox" asp-for="@Model.btList[i].IsChecked" name="@Model.btList[i].TName" />
                     <label method="get" asp-for="@Model.btList[i].IsChecked">
                         @Model.btList[i].TName
                     </label>
-                    <input type="hidden" asp-for="@Model.btList[i].IsChecked" name="@Model.btList[i].TName" value="false"/>
-                    @*<input type="hidden" asp-for="@Model.btList[i].TName" />*@
+                    <input type="hidden" asp-for="@Model.btList[i].IsChecked" name="@Model.btList[i].TName" value="false"/>                    
                 }
-
             </div>
-
-
-            @*<div class="form-group">
-            <div class="checkbox">
-                <label asp-for="Ejerlejlighed">
-                    <input asp-for="Ejerlejlighed" />
-                    @Html.DisplayNameFor(m => m.Ejerlejlighed)
-                </label>
-                <label asp-for="Villa">
-                    <input asp-for="Villa" />
-                    @Html.DisplayNameFor(m => m.Villa)
-                </label>
-                <label asp-for="Rækkehus">
-                    <input asp-for="Rækkehus" />
-                    @Html.DisplayNameFor(m => m.Rækkehus)
-                </label>
-                <label asp-for="Landejendom">
-                    <input asp-for="Landejendom" />
-                    @Html.DisplayNameFor(m => m.Landejendom)
-                </label>
-                <label asp-for="Fritidsbolig">
-                    <input asp-for="Fritidsbolig" />
-                    @Html.DisplayNameFor(m => m.Fritidsbolig)
-                </label>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="checkbox">
-                <label asp-for="Andelsbolig">
-                    <input asp-for="Andelsbolig" />
-                    @Html.DisplayNameFor(m => m.Andelsbolig)
-                </label>
-                <label asp-for="Villalejlighed">
-                    <input asp-for="Villalejlighed" />
-                    @Html.DisplayNameFor(m => m.Villalejlighed)
-                </label>
-                <label asp-for="Fritidsgrund">
-                    <input asp-for="Fritidsgrund" />
-                    @Html.DisplayNameFor(m => m.Fritidsgrund)
-                </label>
-                <label asp-for="Helårsgrund">
-                    <input asp-for="Helårsgrund" />
-                    @Html.DisplayNameFor(m => m.Helårsgrund)
-                </label>
-            </div>
-        </div>*@
-            <button type="submit" class="btn btn-primary">Search</button>
+            <button type="submit" class="btn btn-primary">Søg</button>
         </form>
     </div>
     <table class="table">

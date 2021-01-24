@@ -15,7 +15,6 @@ namespace BeckITEjendomsmæglerApplikation.ViewModels
         public int StLiggetid { get; set; }
         [DisplayName("Max Liggetid")]
         public int SlLiggetid { get; set; }
-
         public bool Andelsbolig { get; set; }
         public bool Ejerlejlighed { get; set; }
         public bool Fritidsbolig { get; set; }

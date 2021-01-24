@@ -1,9 +1,9 @@
 ﻿@model EditProfileViewModel
 @{
-    ViewBag.Title = "Edit Profile";
+    ViewBag.Title = "Profil";
 }
 
-<h1>Edit Profile</h1>
+<h1>Rediger Profil</h1>
 
 
 <form method="post" asp-action="EditProfile">
@@ -40,8 +40,8 @@
             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
         </div>*@
 
-    <button type="submit" class="btn btn-primary">Update Profile</button>
+    <button type="submit" class="btn btn-primary">Opdater Profil</button>
 </form>
 <form method="post" asp-action="DeleteUser">
-    <button type="submit" class="btn btn-danger">Delete</button>
+    <button type="submit" class="btn btn-danger">Slet</button>
 </form>

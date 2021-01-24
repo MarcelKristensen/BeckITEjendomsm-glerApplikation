@@ -4,10 +4,10 @@
     ViewBag.Title = "Addresses";
 }
 
-<h2>Addresses</h2>
+<h2>Boliger</h2>
 
 <p>
-    <a asp-controller="Address" asp-action="Create">Create New</a>
+    <a asp-controller="Address" asp-action="Create">Indsæt ny bolig</a>
 </p>
 <table class="table">
     <thead>
@@ -18,6 +18,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Zipcode)
             </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.Liggetid)
             </th>
@@ -28,7 +29,7 @@
                 @Html.DisplayNameFor(model => model.Boliga.BoligaHyperlink)
             </th>
             <th>
-                Files
+                Filer
             </th>
         </tr>
     </thead>
@@ -51,12 +52,12 @@
             <td>
                 <a href="@Html.DisplayFor(modelItem => item.Boliga.BoligaHyperlink)" target="_blank">Link</a>
             </td>
-            @*<td>
-                <a asp-controller="Address" asp-action="Upload" asp-route-id="@item.DocumentId">Upload File</a>
-            </td>*@
+            <td>
+                <a asp-controller="Address" asp-action="Upload" asp-route-id="@item.DocumentId">Kampagnemateriale</a>
+            </td>
             <td>
                 <!--<a asp-action="Edit" asp-route-id="@item.AddressId">Edit</a>-->
-                <a asp-action="Delete" asp-route-id="@item.AddressId" class="text-danger ml-1" onclick="return confirm('Are you sure you want to delete this Address?')">Delete</a>
+                <a asp-action="Delete" asp-route-id="@item.AddressId" class="text-danger ml-1" onclick="return confirm('Er du sikker på at du vil slette boligen?')">Slet</a>
             </td>
         </tr>
                         }

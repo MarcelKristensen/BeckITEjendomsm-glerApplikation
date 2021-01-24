@@ -13,6 +13,5 @@ namespace BeckITEjendomsmæglerApplikation.Models.AddressHyperlinks
         public int BoligsidenID { get; set; }
         [DisplayName("Boligsiden")]
         public string BoligsidenHyperlink { get; set; }
-        public string BoligsidenStreet { get; set; }
     }
 }
