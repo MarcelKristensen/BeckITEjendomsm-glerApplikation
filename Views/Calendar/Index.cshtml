@@ -2,11 +2,8 @@
 <html lang='en'>
 <head>
     <meta charset='utf-8' />
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">-->
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/main.css' rel='stylesheet' />
-
-
-        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/main.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/main.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/locales-all.js"></script>
 
@@ -31,7 +28,7 @@
                 themeSystem: 'standard',
                 weekNumbers: true,
                 dayHeaderFormat: { weekday: 'long' },
-                googleCalendarApiKey: 'AIzaSyArrQu2Sv1FdHjhezWMKP80Ai8QWb24zaw',
+                googleCalendarApiKey: 'Insert your Google Calendar API key here', //Brug egen API nøgle
                 customButtons: {
                     AuthenticateButton: {
                         text: 'Authenticate',
@@ -42,7 +39,7 @@
                 },
                 events:
                 {
-                    googleCalendarId: 'uod6u6mhea981mvd8j7s9mdco0@group.calendar.google.com'
+                    googleCalendarId: 'Insert your CalendarId here' //Brug kalender id for den kalender du vil bruge
                 },
                 eventClick: function (arg) {
                     // opens events in a popup window
@@ -96,7 +93,6 @@
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal">
-                        <input type="hidden" id="hdEventID" value="0" />
                         <div class="form-group">
                             <label>Subject</label>
                             <input type="text" id="txtSubject" class="form-control" />
@@ -144,19 +140,19 @@
 
     function authenticate() {
         return gapi.auth2.getAuthInstance()
-            .signIn({ scope: "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events" })
+            .signIn({ scope: "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events" }) //DU skal tilføje disse to scopes på din Google API side
             .then(function () { console.log("Sign-in successful"); },
                 function (err) { console.error("Error signing in", err); });
     }
     function loadClient() {
-        gapi.client.setApiKey("AIzaSyArrQu2Sv1FdHjhezWMKP80Ai8QWb24zaw");
+        gapi.client.setApiKey("Insert your Google Calendar API key here"); //Brug egen API nøgle
         return gapi.client.load("https://content.googleapis.com/discovery/v1/apis/calendar/v3/rest")
             .then(function () { console.log("GAPI client loaded for API"); },
                 function (err) { console.error("Error loading GAPI client for API", err); });
     }
     function execute() {
         return gapi.client.calendar.events.insert({
-                "calendarId": "uod6u6mhea981mvd8j7s9mdco0@group.calendar.google.com",
+            "calendarId": "Insert your CalendarId here", //Brug kalender id for den kalender du vil bruge
             "resource": {
                 "summary":  $('#txtSubject').val().trim(),
                     "end": {
@@ -175,6 +171,6 @@
                 function(err) { console.error("Execute error", err); });
     }
     gapi.load("client:auth2", function() {
-        gapi.auth2.init({ client_id: "570013534372-k8g0jprshf2t9sqmlcff8ei10lhkdqpm.apps.googleusercontent.com"});
+        gapi.auth2.init({ client_id: "Insert clientId for the users you want to allow access"}); //Brug klient ID fra google api. Du bestemmer selv hvilke brugere har adgang.
     });
 </script>

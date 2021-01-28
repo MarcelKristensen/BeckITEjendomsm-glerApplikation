@@ -16,7 +16,7 @@ namespace BeckITEjendomsmæglerApplikation.ViewModels
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Display(Name = "RememberMe")]
+        [Display(Name = "Husk mig")]
         public bool RememberMe { get; set; }
 
     }
